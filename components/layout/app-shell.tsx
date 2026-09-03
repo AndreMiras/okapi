@@ -29,7 +29,7 @@ export function AppShell({
             href="/dashboard"
             className="text-xl font-bold tracking-tight text-[#173f43]"
           >
-            my<span className="text-[#c16b48]">kids</span>
+            Oka<span className="text-[#c16b48]">pi</span>
           </Link>
           <form
             onChange={(e) => {

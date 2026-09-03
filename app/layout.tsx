@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 export const metadata: Metadata = {
-  title: "mykids | Family hub",
-  description: "A calmer way to stay close to your child's school day.",
+  title: "Okapi | Open MyKids client",
+  description: "An unofficial, open-source web client for Kids&Us MyKids.",
 };
 export default function RootLayout({
   children,
