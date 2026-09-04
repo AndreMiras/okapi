@@ -1,6 +1,7 @@
 # Okapi
 
 [![Tests](https://github.com/AndreMiras/okapi/actions/workflows/tests.yml/badge.svg)](https://github.com/AndreMiras/okapi/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/AndreMiras/okapi/graph/badge.svg)](https://codecov.io/gh/AndreMiras/okapi)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Okapi is an unofficial, open-source web client for families who use Kids&amp;Us MyKids. It is an independent community project and is not affiliated with, endorsed by, or maintained by Kids&amp;Us. The official MyKids service and app belong to Kids&amp;Us English S.L.
