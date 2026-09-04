@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
+
 import { getSession } from "@/lib/auth/session";
 import { selection } from "@/lib/mykids/selectors";
+
 import { ApiError } from "./errors";
+
 export async function context(request: Request) {
   const session = await getSession();
   if (!session)

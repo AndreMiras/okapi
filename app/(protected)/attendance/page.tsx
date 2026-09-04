@@ -1,8 +1,10 @@
 import { redirect } from "next/navigation";
+
 import { getSession } from "@/lib/auth/session";
-import { selection } from "@/lib/mykids/selectors";
 import { myKids } from "@/lib/mykids/client";
+import { selection } from "@/lib/mykids/selectors";
 import type { Absences } from "@/lib/mykids/types";
+
 export default async function AttendancePage({ searchParams }: PageProps<"/">) {
   const session = await getSession();
   if (!session) redirect("/login");

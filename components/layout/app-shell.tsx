@@ -1,7 +1,10 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+
 import type { Student } from "@/lib/mykids/types";
+
 const links = [
   ["Dashboard", "/dashboard"],
   ["Calendar", "/calendar"],

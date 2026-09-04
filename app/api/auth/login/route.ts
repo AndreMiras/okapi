@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
-import { getEnv } from "@/lib/env";
+
 import { encodeSession, sessionCookie } from "@/lib/auth/session";
+import { getEnv } from "@/lib/env";
 import { myKids } from "@/lib/mykids/client";
 import { ApiError } from "@/lib/mykids/errors";
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();

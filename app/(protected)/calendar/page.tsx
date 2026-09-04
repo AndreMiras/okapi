@@ -1,7 +1,9 @@
 import { redirect } from "next/navigation";
+
 import { getSession } from "@/lib/auth/session";
-import { selection } from "@/lib/mykids/selectors";
 import { myKids } from "@/lib/mykids/client";
+import { selection } from "@/lib/mykids/selectors";
+
 export default async function CalendarPage({ searchParams }: PageProps<"/">) {
   const session = await getSession();
   if (!session) redirect("/login");

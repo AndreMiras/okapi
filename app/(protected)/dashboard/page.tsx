@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
+
 import { getSession } from "@/lib/auth/session";
 import { selection } from "@/lib/mykids/selectors";
+
 export default async function DashboardPage({ searchParams }: PageProps<"/">) {
   const session = await getSession();
   if (!session) redirect("/login");

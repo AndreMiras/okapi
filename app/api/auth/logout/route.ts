@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
-import { getSession, COOKIE } from "@/lib/auth/session";
+
+import { COOKIE, getSession } from "@/lib/auth/session";
 import { myKids } from "@/lib/mykids/client";
+
 export async function POST() {
   const session = await getSession();
   if (session?.authToken)

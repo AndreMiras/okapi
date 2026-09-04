@@ -1,4 +1,5 @@
 import type { Course, LoginPayload, Student } from "./types";
+
 export function students(session: LoginPayload): Student[] {
   return Array.isArray(session.dashboard)
     ? session.dashboard.filter((item) => item && item.studentId)

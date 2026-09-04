@@ -1,6 +1,7 @@
-import test from "node:test";
 import assert from "node:assert/strict";
-import { selection, safeUrl } from "../lib/mykids/selectors.ts";
+import test from "node:test";
+
+import { safeUrl, selection } from "../lib/mykids/selectors.ts";
 
 test("selection rejects an invalid student and falls back safely", () => {
   const result = selection(

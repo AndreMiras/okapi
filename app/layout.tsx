@@ -1,5 +1,7 @@
-import type { Metadata } from "next";
 import "./globals.css";
+
+import type { Metadata } from "next";
+
 export const metadata: Metadata = {
   title: "Okapi | Open MyKids client",
   description: "An unofficial, open-source web client for Kids&Us MyKids.",

@@ -1,5 +1,7 @@
 import "server-only";
+
 import { getEnv } from "@/lib/env";
+
 import { ApiError } from "./errors";
 import type {
   Absences,
