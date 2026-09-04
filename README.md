@@ -26,6 +26,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ```bash
 npm test
+npm run test:coverage
 npm run lint
 npm run typecheck
 npm run format:check
