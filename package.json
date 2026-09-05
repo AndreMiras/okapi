@@ -12,11 +12,11 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "node --test",
-    "test:coverage": "c8 node --test",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "generate:session-secret": "node -e \"console.log(require('node:crypto').randomBytes(32).toString('base64url'))\"",
-    "format": "prettier --write \"app/**/*.{ts,tsx}\" \"components/**/*.{ts,tsx}\" \"lib/**/*.ts\" \"tests/**/*.{mjs,ts}\"",
-    "format:check": "prettier --check \"app/**/*.{ts,tsx}\" \"components/**/*.{ts,tsx}\" \"lib/**/*.ts\" \"tests/**/*.{mjs,ts}\""
+    "format": "prettier --write \"app/**/*.{ts,tsx}\" \"components/**/*.{ts,tsx}\" \"lib/**/*.ts\" \"tests/**/*.ts\" \"vitest.config.mts\"",
+    "format:check": "prettier --check \"app/**/*.{ts,tsx}\" \"components/**/*.{ts,tsx}\" \"lib/**/*.ts\" \"tests/**/*.ts\" \"vitest.config.mts\""
   },
   "dependencies": {
     "next": "16.3.4",
@@ -28,21 +28,13 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "c8": "^12.0.0",
+    "@vitest/coverage-v8": "4.1.11",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
     "eslint-plugin-simple-import-sort": "^14.0.0",
     "prettier": "^3.9.6",
     "tailwindcss": "^4",
-    "typescript": "^5"
-  },
-  "c8": {
-    "all": true,
-    "include": [
-      "lib/env.ts",
-      "lib/mykids/errors.ts",
-      "lib/mykids/selectors.ts"
-    ],
-    "reporter": ["text", "lcov", "cobertura"]
+    "typescript": "^5",
+    "vitest": "4.1.11"
   }
 }
