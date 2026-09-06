@@ -32,4 +32,12 @@ npm run lint
 npm run typecheck
 npm run format:check
 npm run build
+npm run test:e2e
+```
+
+The end-to-end smoke test runs against a production build and requires Chromium.
+Install it once for your local Playwright setup:
+
+```bash
+npx playwright install chromium
 ```

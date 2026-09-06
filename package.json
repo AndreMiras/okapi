@@ -14,9 +14,11 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "test:e2e": "npm run build && npm run test:e2e:run",
+    "test:e2e:run": "playwright test",
     "generate:session-secret": "node -e \"console.log(require('node:crypto').randomBytes(32).toString('base64url'))\"",
-    "format": "prettier --write \"app/**/*.{ts,tsx}\" \"components/**/*.{ts,tsx}\" \"lib/**/*.ts\" \"tests/**/*.ts\" \"vitest.config.mts\"",
-    "format:check": "prettier --check \"app/**/*.{ts,tsx}\" \"components/**/*.{ts,tsx}\" \"lib/**/*.ts\" \"tests/**/*.ts\" \"vitest.config.mts\""
+    "format": "prettier --write \"app/**/*.{ts,tsx}\" \"components/**/*.{ts,tsx}\" \"lib/**/*.ts\" \"tests/**/*.{ts,mjs}\" \"playwright.config.ts\" \"vitest.config.mts\"",
+    "format:check": "prettier --check \"app/**/*.{ts,tsx}\" \"components/**/*.{ts,tsx}\" \"lib/**/*.ts\" \"tests/**/*.{ts,mjs}\" \"playwright.config.ts\" \"vitest.config.mts\""
   },
   "dependencies": {
     "next": "16.3.4",
@@ -24,6 +26,7 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
