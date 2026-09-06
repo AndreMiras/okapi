@@ -37,7 +37,7 @@
     "eslint-plugin-simple-import-sort": "^14.0.0",
     "prettier": "^3.9.6",
     "tailwindcss": "^4",
-    "typescript": "^5",
+    "typescript": "^7",
     "vitest": "4.1.11"
   }
 }
