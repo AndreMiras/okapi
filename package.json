@@ -26,6 +26,7 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@typescript/native": "npm:typescript@^7",
     "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
@@ -37,7 +38,7 @@
     "eslint-plugin-simple-import-sort": "^14.0.0",
     "prettier": "^3.9.6",
     "tailwindcss": "^4",
-    "typescript": "^5",
+    "typescript": "npm:@typescript/typescript6@^6",
     "vitest": "4.1.11"
   }
 }
