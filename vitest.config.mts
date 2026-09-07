@@ -20,7 +20,11 @@ export default defineConfig({
     unstubEnvs: true,
     coverage: {
       provider: "v8",
-      include: ["lib/**/*.ts", "app/api/auth/login/route.ts"],
+      include: [
+        "lib/**/*.ts",
+        "app/api/auth/login/route.ts",
+        "app/api/mykids/school/route.ts",
+      ],
       exclude: ["lib/mykids/types.ts"],
       reporter: ["text", "lcov", "cobertura"],
     },
