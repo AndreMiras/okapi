@@ -23,7 +23,7 @@ export default defineConfig({
       include: [
         "lib/**/*.ts",
         "app/api/auth/login/route.ts",
-        "app/api/mykids/school/route.ts",
+        "app/**/attendance/actions.ts",
       ],
       exclude: ["lib/mykids/types.ts"],
       reporter: ["text", "lcov", "cobertura"],

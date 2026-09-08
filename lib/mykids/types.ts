@@ -28,16 +28,26 @@ export type LoginPayload = {
   authToken: string;
   username?: string;
   dashboard?: Student[];
+  forceLogout?: boolean;
+  termsPending?: boolean;
+  schoolUser?: boolean;
+  errCode?: string;
 };
 export type ReportFile = { name?: string; type?: string; url?: string };
 export type Report = { title?: string; files?: ReportFile[] };
 export type Absence = { date?: string; title?: string; reason?: string };
+export type AbsenceDate = { date?: string; followUpId?: string };
 export type Absences = {
-  absences?: Absence[];
-  dates?: {
-    dates?: { date?: string; followUpId?: string }[];
-    concepts?: string[];
+  absences: Absence[];
+  dates: {
+    dates: AbsenceDate[];
+    concepts: string[];
   };
+};
+export type RegisterAbsenceInput = {
+  followUpId: string;
+  reason: string;
+  studentId: string;
 };
 export type School = {
   title?: string;

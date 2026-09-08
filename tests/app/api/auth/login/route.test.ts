@@ -43,6 +43,10 @@ describe("camelCase success", () => {
       Response.json({
         authToken: "synthetic-token",
         username: "alice",
+        forceLogout: false,
+        termsPending: false,
+        schoolUser: false,
+        errCode: "",
         dashboard: [
           {
             studentId: "student-one",
@@ -71,7 +75,11 @@ describe("camelCase success", () => {
       Locale: "en-GB-long",
     });
     expect(response.status).toBe(200);
-    await expect(response.json()).resolves.toEqual({ ok: true });
+    const responseBody = await response.json();
+    expect(responseBody).toEqual({ ok: true });
+    expect(JSON.stringify(responseBody)).not.toMatch(
+      /synthetic-token|synthetic-password|student-one|alice/,
+    );
 
     const cookieValue = response.cookies.get(COOKIE)?.value;
     expect(cookieValue).toBeTruthy();
@@ -80,6 +88,10 @@ describe("camelCase success", () => {
     expect(decodeSession(cookieValue!, secret)).toMatchObject({
       authToken: "synthetic-token",
       username: "alice",
+      forceLogout: false,
+      termsPending: false,
+      schoolUser: false,
+      errCode: "",
       dashboard: [
         {
           studentId: "student-one",
@@ -97,6 +109,10 @@ describe("PascalCase normalization", () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValue(
       Response.json({
         AuthToken: "pascal-token",
+        ForceLogout: false,
+        TermsPending: false,
+        SchoolUser: false,
+        ERR_CODE: "",
         Dashboard: [
           {
             StudentId: "student-two",
@@ -125,6 +141,10 @@ describe("PascalCase normalization", () => {
     expect(cookieValue).toBeTruthy();
     expect(decodeSession(cookieValue!, secret)).toMatchObject({
       authToken: "pascal-token",
+      forceLogout: false,
+      termsPending: false,
+      schoolUser: false,
+      errCode: "",
       dashboard: [
         {
           studentId: "student-two",
@@ -139,6 +159,100 @@ describe("PascalCase normalization", () => {
       ],
     });
     expectCookieSecurity(response, true);
+  });
+});
+
+describe("account state", () => {
+  test("rejects forced logout without creating a session", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      Response.json({
+        AuthToken: "forced-token",
+        ForceLogout: true,
+        TermsPending: false,
+        SchoolUser: false,
+      }),
+    );
+
+    const response = await POST(
+      loginRequest({
+        username: "alice",
+        password: "synthetic-password",
+        locale: "en",
+      }),
+    );
+
+    expect(response.status).toBe(403);
+    await expect(response.json()).resolves.toEqual({
+      error: "This account cannot start a session right now",
+    });
+    expect(response.cookies.get(COOKIE)).toBeUndefined();
+  });
+
+  test("retains read-only flags and returns only a bounded warning", async () => {
+    const warning = `<b>${"w".repeat(600)}</b>`;
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      Response.json({
+        AuthToken: "read-only-token",
+        Username: "school-user",
+        TermsPending: true,
+        SchoolUser: true,
+        ForceLogout: false,
+        ERR_CODE: warning,
+        Dashboard: [{ StudentId: "student-one", Name: "Student One" }],
+      }),
+    );
+
+    const response = await POST(
+      loginRequest({
+        username: "school-user",
+        password: "synthetic-password",
+        locale: "en",
+      }),
+    );
+    const responseBody = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(responseBody).toEqual({ ok: true, warning: "w".repeat(500) });
+    expect(JSON.stringify(responseBody)).not.toMatch(
+      /read-only-token|synthetic-password|school-user|student-one|Student One/,
+    );
+
+    const cookieValue = response.cookies.get(COOKIE)?.value;
+    expect(cookieValue).toBeTruthy();
+    expect(decodeSession(cookieValue!, secret)).toMatchObject({
+      authToken: "read-only-token",
+      forceLogout: false,
+      termsPending: true,
+      schoolUser: true,
+      errCode: "w".repeat(500),
+    });
+  });
+
+  test("keeps missing or malformed flags ineligible instead of coercing them", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      Response.json({
+        authToken: "legacy-token",
+        forceLogout: "false",
+        termsPending: null,
+      }),
+    );
+
+    const response = await POST(
+      loginRequest({
+        username: "legacy-user",
+        password: "synthetic-password",
+        locale: "en",
+      }),
+    );
+    const cookieValue = response.cookies.get(COOKIE)?.value;
+    const session = decodeSession(cookieValue!, secret);
+
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toEqual({ ok: true });
+    expect(session).toMatchObject({ authToken: "legacy-token" });
+    expect(session?.forceLogout).toBeUndefined();
+    expect(session?.termsPending).toBeUndefined();
+    expect(session?.schoolUser).toBeUndefined();
   });
 });
 

@@ -7,5 +7,12 @@ import { students } from "@/lib/mykids/selectors";
 export default async function ProtectedLayout({ children }: LayoutProps<"/">) {
   const session = await getSession();
   if (!session) redirect("/login");
-  return <AppShell students={students(session)}>{children}</AppShell>;
+  return (
+    <AppShell
+      students={students(session)}
+      termsPending={session.termsPending === true}
+    >
+      {children}
+    </AppShell>
+  );
 }

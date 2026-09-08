@@ -24,7 +24,16 @@ export async function POST(request: Request) {
         { error: "The service returned an invalid login response" },
         { status: 502 },
       );
-    const response = NextResponse.json({ ok: true });
+    if (payload.forceLogout === true) {
+      return NextResponse.json(
+        { error: "This account cannot start a session right now" },
+        { status: 403 },
+      );
+    }
+    const response = NextResponse.json({
+      ok: true,
+      warning: payload.errCode || undefined,
+    });
     response.cookies.set(
       sessionCookie(encodeSession(payload, getEnv().secret)),
     );

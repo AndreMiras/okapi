@@ -17,10 +17,12 @@ export function AppShell({
   children,
   students,
   selected,
+  termsPending,
 }: {
   children: React.ReactNode;
   students: Student[];
   selected?: string;
+  termsPending: boolean;
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -64,6 +66,15 @@ export function AppShell({
           </button>
         </div>
       </header>
+      {termsPending && (
+        <div
+          role="status"
+          className="border-b border-amber-300 bg-amber-50 px-5 py-3 text-center text-sm text-amber-950"
+        >
+          Okapi remains read-only until you accept the current terms in the
+          official Kids&amp;Us app.
+        </div>
+      )}
       <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-8 lg:flex-row">
         <nav className="flex gap-2 overflow-x-auto lg:w-52 lg:flex-col">
           {links.map(([label, href]) => (

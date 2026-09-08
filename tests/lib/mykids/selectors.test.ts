@@ -1,6 +1,11 @@
 import { describe, expect, test } from "vitest";
 
-import { safeUrl, selection, students } from "@/lib/mykids/selectors";
+import {
+  exactSelection,
+  safeUrl,
+  selection,
+  students,
+} from "@/lib/mykids/selectors";
 import type { LoginPayload, Student } from "@/lib/mykids/types";
 
 describe("students", () => {
@@ -71,6 +76,41 @@ describe("selection", () => {
 
     expect(result.student?.studentId).toBe("one");
     expect(result.course).toBeUndefined();
+  });
+});
+
+describe("exactSelection", () => {
+  const session: LoginPayload = {
+    authToken: "token",
+    dashboard: [
+      {
+        studentId: "one",
+        name: "One",
+        courseList: [{ groupId: "group-one" }],
+      },
+      {
+        studentId: "two",
+        name: "Two",
+        courseList: [{ groupId: "group-two" }],
+      },
+    ],
+  };
+
+  test("returns an exact student and course match", () => {
+    expect(exactSelection(session, "two", "group-two")).toMatchObject({
+      student: { studentId: "two" },
+      course: { groupId: "group-two" },
+    });
+  });
+
+  test.each([
+    ["missing student", "missing", "group-one"],
+    ["missing group", "one", "missing"],
+    ["empty student ID", "", "group-one"],
+    ["empty group ID", "one", ""],
+    ["another student's group", "one", "group-two"],
+  ])("returns null for %s", (_name, studentId, groupId) => {
+    expect(exactSelection(session, studentId, groupId)).toBeNull();
   });
 });
 

@@ -17,6 +17,17 @@ export function selection(
   const course = courses.find((item) => item.groupId === groupId) || courses[0];
   return { student, course: course as Course | undefined };
 }
+export function exactSelection(
+  session: LoginPayload,
+  studentId: string,
+  groupId: string,
+) {
+  const student = students(session).find(
+    (item) => item.studentId === studentId,
+  );
+  const course = student?.courseList?.find((item) => item.groupId === groupId);
+  return student && course ? { student, course } : null;
+}
 export function safeUrl(value?: string) {
   try {
     const url = new URL(value || "");

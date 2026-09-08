@@ -8,6 +8,7 @@ export function LoginForm() {
   const localeField = useRef<HTMLSelectElement>(null);
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
+  const [warning, setWarning] = useState("");
 
   useEffect(() => {
     const language = navigator.language.toLowerCase();
@@ -37,10 +38,23 @@ export function LoginForm() {
           locale: form.get("locale"),
         }),
       });
-      const data = await response.json();
+      const data: unknown = await response.json();
+      const result =
+        data && typeof data === "object"
+          ? (data as { error?: unknown; warning?: unknown })
+          : {};
 
-      if (!response.ok) setError(data.error || "Unable to sign in");
-      else router.push("/dashboard");
+      if (!response.ok) {
+        setError(
+          typeof result.error === "string" && result.error
+            ? result.error
+            : "Unable to sign in",
+        );
+      } else if (typeof result.warning === "string" && result.warning) {
+        setWarning(result.warning);
+      } else {
+        router.push("/dashboard");
+      }
     } catch {
       setError("Unable to sign in right now");
     } finally {
@@ -48,6 +62,24 @@ export function LoginForm() {
       if (passwordField instanceof HTMLInputElement) passwordField.value = "";
       setPending(false);
     }
+  }
+
+  if (warning) {
+    return (
+      <div className="space-y-5 text-[#173f43]">
+        <div role="status" className="space-y-2">
+          <h2 className="text-lg font-semibold">Account notice</h2>
+          <p className="text-sm text-slate-700">{warning}</p>
+        </div>
+        <button
+          type="button"
+          onClick={() => router.push("/dashboard")}
+          className="button w-full"
+        >
+          Continue
+        </button>
+      </div>
+    );
   }
 
   return (
